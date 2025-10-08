@@ -8,6 +8,7 @@ import authRouter from "./routes/auth.route.js";
 dotenv.config();
 
 const app = express();
+const port = 3001
 
 app.use(express.json());  // Add this line before routes
 
@@ -15,8 +16,8 @@ app.use('/api/users', userRouter);
 
 app.use('/api/auth', authRouter);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000!!");
+app.listen(port, () => {
+  console.log(`Server is runing on port ${port}`);
 });
 
 app.use((err, req, res, next) => {
