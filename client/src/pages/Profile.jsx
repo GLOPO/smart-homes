@@ -9,7 +9,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart, updateUserSuccess, updateUserFailed } from "../redux/user/userSlice.js";
+import { updateUserStart, updateUserSuccess, updateUserFailed, deleteUserFailed, deleteUserStart, deleteUserSuccess } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 
 const Profile = () => {
@@ -91,6 +91,23 @@ const Profile = () => {
     }
   }
 
+   const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/users/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailed(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailed(error.message));
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -153,7 +170,7 @@ const Profile = () => {
       </form>
 
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete account</span>
+        <span className="text-red-700 cursor-pointer" onClick={handleDeleteUser}>Delete account</span>
         <span className="text-red-700 cursor-pointer">Sign out</span>
       </div>
 
