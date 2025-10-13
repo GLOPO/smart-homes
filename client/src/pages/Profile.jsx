@@ -115,11 +115,14 @@ const Profile = () => {
 
       const data = await res.json();
       if (data.success === false) {
+        dispatch(signOutUserFailed(data.message));
         return;
       }
-      dispatch(signOutUserSuccess());
+
+      dispatch(deleteUserSuccess(data));
+      
     } catch (error) {
-      dispatch(signOutUserFailed(error.message));
+      dispatch(deleteUserFailed(error.message))
     }
   }
 
