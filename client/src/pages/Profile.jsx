@@ -21,6 +21,8 @@ const Profile = () => {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   const dispatch = useDispatch();
   
@@ -127,6 +129,24 @@ const Profile = () => {
     }
   }
 
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+
+      const res = await fetch (`/api/listings/user/${currentUser._id}`);
+      const data = await res.json();
+
+      if (data.success === false) {
+        setShowListingsError(true)
+        return;
+      }
+
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true)
+    }
+  }
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -199,6 +219,33 @@ const Profile = () => {
 
       <p className="text-red-700 mt-5">{ error ? error : '' }</p>
       <p className="text-green-700 mt-5">{ updateSuccess ? "Profile updated successfully" : '' }</p>
+
+      <button onClick={handleShowListings} className="text-green-700 w-full">Show listings</button>
+      <p className="text-red-700 mt-5">{ showListingsError ? "Error showing listings" : '' }</p>
+
+      { userListings && userListings.length > 0 && 
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold">Your Listings</h1>
+          {
+            userListings.map(listing => (
+          <div key={listing._id} className="border p-3 rounded-lg my-3 flex justify-between items-center">
+            <Link to={`/listings/${listing._id}`}>
+              <img src={listing.image} alt='listing cover' className="h-16 w-16 object-contain rounded-lg"/>
+            </Link>
+
+            <Link to={`/listings/${listing._id}`}  className="font-semibold text-slate-700  hover:underline truncate flex-1 gap-4">
+              <p>{listing.name}</p>
+            </Link>
+
+            <div className="flex flex-col items-center">
+              <button className="text-red-700 uppercase">Delete</button>
+              <button className="text-green-700 uppercase">edit</button>
+            </div>
+          </div>
+        ))
+          }
+        </div>
+      }
     </div>
   );
 };
