@@ -140,7 +140,7 @@ const CreateListing = () => {
       setLoading(true);
       setError(false);
 
-      const res = await fetch("api/listings/create", {
+      const res = await fetch("/api/listings/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
