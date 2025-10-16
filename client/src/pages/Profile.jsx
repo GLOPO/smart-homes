@@ -9,7 +9,17 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart, updateUserSuccess, updateUserFailed, deleteUserFailed, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserSuccess, signOutUserFailed } from "../redux/user/userSlice.js";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailed,
+  deleteUserFailed,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserStart,
+  signOutUserSuccess,
+  signOutUserFailed,
+} from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -25,7 +35,6 @@ const Profile = () => {
   const [userListings, setUserListings] = useState([]);
 
   const dispatch = useDispatch();
-  
 
   // firebase storage
   //  allow read;
@@ -67,7 +76,7 @@ const Profile = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -92,13 +101,13 @@ const Profile = () => {
     } catch (error) {
       dispatch(updateUserFailed(error.message));
     }
-  }
+  };
 
-   const handleDeleteUser = async () => {
+  const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/users/delete/${currentUser._id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       const data = await res.json();
       if (data.success === false) {
@@ -114,7 +123,7 @@ const Profile = () => {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch('/api/auth/signout');
+      const res = await fetch("/api/auth/signout");
 
       const data = await res.json();
       if (data.success === false) {
@@ -123,34 +132,33 @@ const Profile = () => {
       }
 
       dispatch(deleteUserSuccess(data));
-      
     } catch (error) {
-      dispatch(deleteUserFailed(error.message))
+      dispatch(deleteUserFailed(error.message));
     }
-  }
+  };
 
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
 
-      const res = await fetch (`/api/users/listings/${currentUser._id}`);
+      const res = await fetch(`/api/users/listings/${currentUser._id}`);
       const data = await res.json();
 
       if (data.success === false) {
-        setShowListingsError(true)
+        setShowListingsError(true);
         return;
       }
 
       setUserListings(data);
     } catch (error) {
-      setShowListingsError(true)
+      setShowListingsError(true);
     }
-  }
+  };
 
-   const handleListingDelete = async (listingId) => {
+  const handleListingDelete = async (listingId) => {
     try {
       const res = await fetch(`/api/listing/delete/${listingId}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
       const data = await res.json();
       if (data.success === false) {
@@ -186,7 +194,9 @@ const Profile = () => {
         />
         <p className="text-small self-center font-semibold">
           {fileUploadError ? (
-            <span className="text-red-700">Error Uploading Image, Image must be less than 2MB</span>
+            <span className="text-red-700">
+              Error Uploading Image, Image must be less than 2MB
+            </span>
           ) : filePerc > 0 && filePerc < 100 ? (
             <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
           ) : filePerc === 100 ? (
@@ -222,55 +232,84 @@ const Profile = () => {
           onChange={handleChange}
         />
 
-        <button disabled={loading} className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">
-          { loading ?  "Updating..." : "Update"}
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "Updating..." : "Update"}
         </button>
 
-        <Link to={'/create-listing'} className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95">
+        <Link
+          to={"/create-listing"}
+          className="bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95"
+        >
           Create Listing
         </Link>
       </form>
 
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer" onClick={handleDeleteUser}>Delete account</span>
-        <span className="text-red-700 cursor-pointer" onClick={handleSignOut}>Sign out</span>
+        <span
+          className="text-red-700 cursor-pointer"
+          onClick={handleDeleteUser}
+        >
+          Delete account
+        </span>
+        <span className="text-red-700 cursor-pointer" onClick={handleSignOut}>
+          Sign out
+        </span>
       </div>
 
-      <p className="text-red-700 mt-5">{ error ? error : '' }</p>
-      <p className="text-green-700 mt-5">{ updateSuccess ? "Profile updated successfully" : '' }</p>
+      <p className="text-red-700 mt-5">{error ? error : ""}</p>
+      <p className="text-green-700 mt-5">
+        {updateSuccess ? "Profile updated successfully" : ""}
+      </p>
 
-      <button onClick={handleShowListings} className="text-green-700 w-full">Show listings</button>
-      <p className="text-red-700 mt-5">{ showListingsError ? "Error showing listings" : '' }</p>
+      <button onClick={handleShowListings} className="text-green-700 w-full">
+        Show listings
+      </button>
+      <p className="text-red-700 mt-5">
+        {showListingsError ? "Error showing listings" : ""}
+      </p>
 
-        {userListings && userListings.length > 0 && (
-        <div className='flex flex-col gap-4'>
-          <h1 className='text-center mt-7 text-2xl font-semibold'>
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-4">
+          <h1 className="text-center mt-7 text-2xl font-semibold">
             Your Listings
           </h1>
-          {
-            userListings.map(listing => (
-          <div key={listing._id} className="border p-3 rounded-lg my-3 flex justify-between items-center">
-            <Link to={`/listings/${listing._id}`}>
-              <img src={listing.image} alt='listing cover' className="h-16 w-16 object-contain rounded-lg"/>
-            </Link>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className="border p-3 rounded-lg my-3 flex justify-between items-center"
+            >
+              <Link to={`/listings/${listing._id}`}>
+                <img
+                  src={listing.image}
+                  alt="listing cover"
+                  className="h-16 w-16 object-contain rounded-lg"
+                />
+              </Link>
 
-            <Link to={`/listings/${listing._id}`}  className="font-semibold text-slate-700  hover:underline truncate flex-1 gap-4">
-              <p>{listing.name}</p>
-            </Link>
+              <Link
+                to={`/listings/${listing._id}`}
+                className="font-semibold text-slate-700  hover:underline truncate flex-1 gap-4"
+              >
+                <p>{listing.name}</p>
+              </Link>
 
-            <div className="flex flex-col items-center">
-                            <button
+              <div className="flex flex-col items-center">
+                <button
                   onClick={() => handleListingDelete(listing._id)}
-                  className='text-red-700 uppercase'
+                  className="text-red-700 uppercase"
                 >
                   Delete
                 </button>
-              <button className="text-green-700 uppercase">edit</button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className="text-green-700 uppercase">Edit</button>
+                </Link>
+              </div>
             </div>
-          </div>
-        ))
-          }
-          </div>
+          ))}
+        </div>
       )}
     </div>
   );
