@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FaSearch } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -52,9 +53,9 @@ export default function Header() {
               Home
             </li>
           </Link>
-          <Link to='/about'>
+          <Link to='/contact'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>
-              About
+              Contact
             </li>
           </Link>
           <Link to='/profile'>
