@@ -6,6 +6,7 @@ import { FaInstagram } from 'react-icons/fa';
 import { BiLogoFacebook } from 'react-icons/bi';
 import { AiOutlineLinkedin } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import Whatsapp from '../components/Whatsapp';
 
 const Contact = () => {
   return (
@@ -36,6 +37,8 @@ const Contact = () => {
           <BiLogoFacebook size={22} className='text-[#64CCC5] ml-4'/>
           <AiOutlineLinkedin size={22} className='text-[#64CCC5] ml-4'/>
         </div>
+
+        <Whatsapp />
       </div>
 
 
@@ -59,7 +62,7 @@ const Contact = () => {
 
          
             <button className='bg-[#176B87] text-white px-6 py-3 rounded-full hover:bg-[#064856] transition-all duration-300'>Contact us</button>
-            <Link to='https://wa.link/w90tk5'>Chat with us on whatsapp</Link>
+            
         </form>
     </main>
   )
