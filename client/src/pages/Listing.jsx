@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,9 @@ import {
   FaParking,
   FaShare,
 } from 'react-icons/fa';
+import SignUp from './SignUp'
+import Contact from '../components/Contact';
+import Payment from '../components/Payment';
 // import Contact from '../components/Contact';
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
@@ -26,6 +29,7 @@ export default function Listing() {
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
+  const [booking, setBooking] = useState(false)
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
@@ -55,7 +59,8 @@ export default function Listing() {
     <main>
       {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
       {error && (
-        <p className='text-center my-7 text-2xl'>Something went wrong!</p>
+        // <p className='text-center my-7 text-2xl'>Something went wrong!</p>
+        <SignUp />
       )}
       {listing && !loading && !error && (
         <div>
@@ -111,6 +116,15 @@ export default function Listing() {
                 </p>
               )}
             </div>
+            {currentUser && listing.userRef !== currentUser._id && !booking && (
+              <button
+                onClick={() => setBooking(true)}
+                className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
+              >
+                Book An Inspection
+              </button>
+            )}
+            {booking && <Payment  />}
             <p className='text-slate-800'>
               <span className='font-semibold text-black'>Description - </span>
               {listing.description}
@@ -142,7 +156,7 @@ export default function Listing() {
                 onClick={() => setContact(true)}
                 className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
               >
-                Contact landlord
+                Contact SmartHomes
               </button>
             )}
             {contact && <Contact listing={listing} />}

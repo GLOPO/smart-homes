@@ -11,6 +11,7 @@ import CreateListing from "./pages/CreateListing";
 import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Contact from "./pages/Contact";
+import Payments from "./pages/Payments";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
 
         <Route path="/contact" element={<Contact />} />
+        <Route path="/payment" element={<Payments />}/>
 
         <Route path="/sign-in" element={<SignIn />} />
 
