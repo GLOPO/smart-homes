@@ -7,18 +7,19 @@ import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
 import path from "path"
 import cors from "cors"
-import paystackRoutes from "./routes/paystack.js"
+import transactionRoutes from "./routes/transactionRoutes.route.js"
+
 
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO)
-  .then(() => {
-    console.log("Connected to MongoDB!!");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-  });
+.connect(process.env.MONGO)
+.then(() => {
+  console.log("Connected to MongoDB!!");
+})
+.catch((err) => {
+  console.error("Error connecting to MongoDB:", err);
+});
 
 const __dirname = path.resolve();
 const app = express();
@@ -31,9 +32,9 @@ app.use(cookieParser());
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
+app.use('/api/transactions', transactionRoutes);
 
 app.use(cors());
-app.use("/api/paystack", paystackRoutes)
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '/client/dist')));

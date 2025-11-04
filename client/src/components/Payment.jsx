@@ -1,40 +1,63 @@
 import React, { useState } from "react";
-import Paystack from "@paystack/inline-js";
+import PaystackPop from "@paystack/inline-js";
+import { useSelector } from "react-redux";
 // import { useNavigation } from "react-router-dom";
 
 const Payment = () => {
-  const publicKey = "pk_test_9d65cd5e1fad89f36057bcef6c0ad7245d3ff8ea";
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const amount = 2000;
-  // const navigate = useNavigation();
+  const { currentUser } = useSelector((state) => state.user)
 
-  const handlePayment = () => {
-    const popup = new Paystack();
-    popup.checkout({
-      key: publicKey,
-      email,
-      amount: amount * 100,
-      metadata: {
-        name,
-        phoneNumber,
+  const [name, setName] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const amount = 2000;
+  const email = currentUser.email;
+
+  const publicKey = "pk_test_9d65cd5e1fad89f36057bcef6c0ad7245d3ff8ea";
+
+  // 
+  
+  const payWithPaystack = () => {
+    const handler = PaystackPop.setup({
+      key: publicKey, // Public key
+      email: email,
+      name: name,
+      phone: phoneNumber,
+      amount: amount * 100, // Amount in kobo
+      currency: "NGN",
+      callback: async (response) => {
+        alert("Payment successful! Verifying...");
+      
+        try {
+          // Call your backend to verify and record the transaction
+          const verifyRes = await fetch(
+  `${import.meta.env.MODE === 'development'
+    ? 'http://localhost:3000'
+    : 'https://your-production-server.com'
+  }/api/transactions/verify/${response.reference}`,
+  {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  }
+);
+
+      
+          if (!verifyRes.ok) {
+            throw new Error("Verification failed");
+          }
+      
+          // Optional: show success message or refresh transaction history
+          alert("Payment verified and saved successfully!");
+          window.location.reload(); // or re-fetch data if you use React Query or Redux
+        } catch (err) {
+          console.error("Error verifying payment:", err);
+          alert("Payment succeeded but verification failed. Try refreshing.");
+        }
       },
-      text: "Book an Inspection",
-      // handle successful transaction
-      onSuccess: () => {
-        // your logic
-        alert("Successfull");
-        // navigate('../pages/Home.jsx')
-      },
-      onCancel: () => {
-        alert("Payment Modal Closed");
-      },
-      onError: () => {
-        alert("Ran into an Error");
-      },
+      onClose: () => alert("Payment closed"),
     });
+    handler.openIframe();
   };
+
+  
 
   const style = {
     input:
@@ -58,15 +81,9 @@ const Payment = () => {
           }}
         />
 
-        <input
-          type="email"
-          value={email}
-          placeholder="Email Address"
-          className={style.input}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
+        <div className={style.input}>
+          Email: {currentUser.email}
+        </div>
 
         <input
           type="text"
@@ -82,7 +99,7 @@ const Payment = () => {
           Inspection Fee: ₦{amount.toLocaleString()}
         </div>
 
-        <button id="payButton" className={style.button} onClick={handlePayment}>
+        <button id="payButton" className={style.button} onClick={payWithPaystack}>
           Book an Inspection
         </button>
       </div>

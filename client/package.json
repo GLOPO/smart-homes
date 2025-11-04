@@ -13,6 +13,7 @@
     "@paystack/inline-js": "^2.22.7",
     "@reduxjs/toolkit": "^2.9.0",
     "axios": "^1.13.1",
+    "dotenv": "^17.2.3",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "firebase": "^12.4.0",

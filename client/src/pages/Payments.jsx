@@ -10,6 +10,8 @@ import Whatsapp from '../components/Whatsapp';
 import Payment from '../components/Payment';
 
 const Payments = () => {
+
+
   return (
     <main className='bg-[#04364A] p-6 md:p-16 my-0 md:my-10 max-w-6xl rounded-none md:rounded-lg mx-auto text-white flex flex-col md:flex-row items-center justify-between gap-10 md:gap-00'>
       <div className='flex flex-col gap-6'>
