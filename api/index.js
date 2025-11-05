@@ -6,7 +6,7 @@ import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
 import path from "path"
-import cors from "cors"
+import cartRouter from "./routes/cart.route.js"
 
 
 dotenv.config();
@@ -30,6 +30,7 @@ app.use(cookieParser());
 // API Routes
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/cart', cartRouter);
 app.use('/api/listing', listingRouter);
 
 

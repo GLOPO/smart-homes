@@ -58,9 +58,9 @@ export default function Header() {
               Contact
             </li>
           </Link>
-          <Link to={'/transactions'}>
+          <Link to={'/history'}>
             <li className='hidden sm:inline text-slate-700 hover:underline'>
-              Payment History
+              History
             </li>
           </Link>
           <Link to='/profile'>

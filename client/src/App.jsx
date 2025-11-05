@@ -12,7 +12,7 @@ import UpdateListing from "./pages/UpdateListing";
 import Listing from "./pages/Listing";
 import Contact from "./pages/Contact";
 import Payments from "./pages/Payments";
-import Transactions from "./pages/Transactions";
+import History from "./pages/History.jsx"
 
 const App = () => {
   return (
@@ -37,7 +37,7 @@ const App = () => {
             path="/update-listing/:listingId"
             element={<UpdateListing />}
           />
-          <Route path="/transactions" element={<Transactions />}/>
+          <Route path="/history" element={<History />}/>
         </Route>
 
       </Routes>
