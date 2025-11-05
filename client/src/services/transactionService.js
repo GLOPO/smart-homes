@@ -2,8 +2,19 @@
 // services/transactionService.js (Frontend)
 import axios from 'axios';
 
-// Point to your backend server, not the Vite dev server
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// Environment-aware API URL
+// Development: Uses Vite proxy (relative path)
+// Production: Uses environment variable or your deployed backend URL
+const getApiUrl = () => {
+  // If in production, use the production API URL
+  if (import.meta.env.PROD) {
+    return import.meta.env.VITE_API_URL || 'https://your-backend-domain.com/api';
+  }
+  // In development, use proxy (relative path)
+  return '/api';
+};
+
+const API_URL = getApiUrl();
 
 // Create axios instance
 const api = axios.create({

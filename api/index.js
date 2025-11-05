@@ -7,7 +7,6 @@ import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
 import path from "path"
 import cors from "cors"
-import transactionRoutes from "./routes/transactionRoutes.route.js"
 
 
 dotenv.config();
@@ -32,9 +31,7 @@ app.use(cookieParser());
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/listing', listingRouter);
-app.use('/api/transactions', transactionRoutes);
 
-app.use(cors());
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '/client/dist')));
