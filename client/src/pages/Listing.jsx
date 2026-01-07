@@ -128,7 +128,7 @@ export default function Listing({ product, userId }) {
             </div>
 
             {showPayment && (
-              <div className="fixed inset-0 flex justify-center items-center bg-black/50">
+              <div className="fixed z-50 inset-0 flex justify-center items-center bg-black/50">
                 <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">
                   <Payment
                     listingName={listing.name}

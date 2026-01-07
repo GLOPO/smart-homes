@@ -30,13 +30,13 @@ const Payment = ({ listingName, listingId, onClose }) => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Failed to add to cart");
+        // throw new Error(data.message || "Failed to add to cart");
       }
 
-      alert("✅ Listing successfully added to your cart!");
+      // alert("✅ Listing successfully added to your cart!");
     } catch (err) {
-      console.error("Error adding to cart:", err);
-      alert("Error adding listing to cart.");
+      // console.error("Error adding to cart:", err);
+      // alert("Error adding listing to cart.");
     }
   };
 
@@ -89,8 +89,6 @@ const Payment = ({ listingName, listingId, onClose }) => {
 
           // After successful verification → Add to cart
           await handleBookAndPay();
-
-          alert(`🎉 Payment complete! "${listingName}" has been added to your cart.`);
           onClose();
         } catch (err) {
           console.error("Error verifying payment:", err);

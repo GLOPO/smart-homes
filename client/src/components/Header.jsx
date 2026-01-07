@@ -1,31 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { FaSearch } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useRef } from "react";
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
-  const [searchTerm, setSearchTerm] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const menuRef = useRef(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set("searchTerm", searchTerm);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
-  };
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -74,9 +58,9 @@ export default function Header() {
           <Link to="/contact">
             <li className="text-slate-700 hover:underline">Contact</li>
           </Link>
-          <Link to="/history">
+          {/* <Link to="/history">
             <li className="text-slate-700 hover:underline">History</li>
-          </Link>
+          </Link> */}
           <Link to="/profile">
             {currentUser ? (
               <img
@@ -121,11 +105,11 @@ export default function Header() {
                   Contact
                 </li>
               </Link>
-              <Link to="/history" onClick={() => setMenuOpen(false)}>
+              {/* <Link to="/history" onClick={() => setMenuOpen(false)}>
                 <li className="w-full text-slate-700 hover:bg-slate-100 p-2 rounded">
                   History
                 </li>
-              </Link>
+              </Link> */}
               <Link to="/profile" onClick={() => setMenuOpen(false)}>
                 <li className="w-full text-slate-700 hover:bg-slate-100 p-2 rounded">
                   {currentUser ? "Profile" : "Sign in"}
