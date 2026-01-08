@@ -8,4 +8,4 @@ const isLocalhost = Boolean(
 // Set the base URL: Use Render URL for production, localhost for development
 export const API_BASE_URL = isLocalhost 
   ? 'http://localhost:3000' 
-  : 'https://smart-homes-server.onrender.com/';
+  : 'https://smart-homes-server.onrender.com';
