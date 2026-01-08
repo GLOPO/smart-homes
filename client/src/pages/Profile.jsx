@@ -249,7 +249,7 @@ export default function Profile() {
       <p className='text-green-700 mt-5'>
         {updateSuccess ? 'User is updated successfully!' : ''}
       </p>
-      {currentUser.email === 'admin@gmail.com' && (
+      {(currentUser.email === 'admin@gmail.com' || currentUser.email === 'admin@caretakershub.org' || currentUser.email === 'caretakershub@gmail.com') && (
         <button onClick={handleShowListings} className='text-green-700 w-full'>
           Show Listings
         </button>

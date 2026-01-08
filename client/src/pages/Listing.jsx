@@ -42,7 +42,7 @@ export default function Listing({ product, userId }) {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE_URL}/api/listing/get/${params.listingId}`);
+        const res = await fetch(`${API_BASE_URL}/api/listing/get/${params.listingId}`, {credentials: 'include'});
         const data = await res.json();
         if (data.success === false) {
           setError(true);
@@ -120,12 +120,12 @@ export default function Listing({ product, userId }) {
                   ${+listing.regularPrice - +listing.discountPrice} OFF
                 </p>
               )}
-              <button
+              {/* <button
                 onClick={() => setShowPayment(true)}
                 className="bg-blue-600 w-full max-w-[200px] text-white text-center p-1 rounded-md"
               >
-                BOOK AND INSPECTION
-              </button>
+                BOOK AN INSPECTION
+              </button> */}
             </div>
 
             {showPayment && (
