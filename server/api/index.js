@@ -35,7 +35,7 @@ app.use('/api/listing', listingRouter);
 
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '/client/dist')));
+// app.use(express.static(path.join(__dirname, '/client/dist')));
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -49,9 +49,13 @@ app.use((err, req, res, next) => {
 });
 
 // Wildcard route handler - must be last (serves index.html for client-side routing)
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-});
+// app.use((req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+// });
+
+app.get('/', (req, res) => {
+  res.send("Smart Homes API is running.....")
+})
 
 // Start server
 app.listen(3000, () => {
