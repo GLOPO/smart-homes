@@ -26,7 +26,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',                  // Local Vite Dev
-  'https://smart-homes-ten.vercel.app/'    // Replace with your real Vercel URL
+  'https://smart-homes-ten.vercel.app'    // Replace with your real Vercel URL
 ];
 
 // 2. Configure CORS
