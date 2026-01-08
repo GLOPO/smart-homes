@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import PaystackPop from "@paystack/inline-js";
 import { useSelector } from "react-redux";
+import { API_BASE_URL } from "../services/apiConfig.js";
 
 const Payment = ({ listingName, listingId, onClose }) => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const Payment = ({ listingName, listingId, onClose }) => {
     try {
       console.log("Sending to backend:", { userId, listingId });
 
-      const res = await fetch("/api/cart/add", {
+      const res = await fetch(`${API_BASE_URL}/api/cart/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, listingId }),
@@ -78,7 +79,7 @@ const Payment = ({ listingName, listingId, onClose }) => {
 
         try {
           const verifyRes = await fetch(
-            `/api/transactions/verify/${response.reference}`,
+            `${API_BASE_URL}/api/transactions/verify/${response.reference}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },

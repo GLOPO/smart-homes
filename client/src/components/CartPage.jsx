@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { API_BASE_URL } from "../services/apiConfig.js";
 
 const CartPage = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ const CartPage = () => {
       }
 
       try {
-        const res = await fetch(`/api/cart/${currentUser._id}`);
+        const res = await fetch(`${API_BASE_URL}/api/cart/${currentUser._id}`);
         if (!res.ok) throw new Error("Failed to fetch cart");
         const data = await res.json();
 

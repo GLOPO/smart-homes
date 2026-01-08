@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { signInStart, signInFailed, signInSuccess } from '../redux/user/userSlice.js'
 import OAuth from '../components/OAuth.jsx'
+import { API_BASE_URL } from '../services/apiConfig.js'
 
 const SignIn = () => {
 
@@ -31,7 +32,7 @@ const SignIn = () => {
       dispatch(signInStart());
     console.log("Dispatched: signInStart");
 
-      const res = await fetch('/api/auth/signin', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
