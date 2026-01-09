@@ -3,6 +3,14 @@ import bcrypt from "bcryptjs";
 import errorHandler from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
+const isProduction = process.env.NODE_ENV === "production";
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProduction, // true in production (HTTPS), false in development (HTTP)
+  sameSite: isProduction ? "none" : "lax",
+  maxAge: 3600000, // 1 hour
+};
+
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
@@ -32,7 +40,7 @@ export const signin = async (req, res, next) => {
 
     const { password: pass, ...rest } = validUser._doc;
     res
-      .cookie("access_token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 3600000 })
+      .cookie("access_token", token, cookieOptions)
       .status(200)
       .json(rest);
   } catch (error) {
@@ -47,7 +55,7 @@ export const google = async (req, res, next) => {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
       res
-        .cookie("access_token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 3600000 })
+        .cookie("access_token", token, cookieOptions)
         .status(200)
         .json(rest);
     } else {
@@ -67,7 +75,7 @@ export const google = async (req, res, next) => {
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
       res
-        .cookie("access_token", token, { httpOnly: true, secure: true, sameSite: "none", maxAge: 3600000 })
+        .cookie("access_token", token, cookieOptions)
         .status(200)
         .json(rest);
     }

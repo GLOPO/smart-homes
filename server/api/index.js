@@ -26,8 +26,10 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',                  // Local Vite Dev
-  'https://smart-homes-ten.vercel.app'  ,  // Replace with your real Vercel URL
-  'https://www.caretakershub.org'
+  'http://localhost:3000',                  // Local backend
+  'http://127.0.0.1:5173',                  // Local IP
+  'https://smart-homes-ten.vercel.app'  ,  // Vercel
+  'https://www.caretakershub.org'           // Production
 ];
 
 // 2. Configure CORS
@@ -39,6 +41,7 @@ app.use(cors({
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log("CORS rejected origin:", origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
