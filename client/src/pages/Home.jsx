@@ -74,18 +74,17 @@ export default function Home() {
       {/* swiper */}
       {/* <SlideShow /> */}
 
-      <Swiper navigation>
-        {offerListings &&
-          offerListings.length > 0 &&
-          offerListings.map((listing) => (
-            <SwiperSlide>
+      <Swiper modules={[Navigation]} navigation>
+        {saleListings &&
+          saleListings.length > 0 &&
+          saleListings.map((listing) => (
+            <SwiperSlide key={listing._id}>
               <div
                 style={{
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: 'cover',
                 }}
                 className='h-[500px]'
-                key={listing._id}
               ></div>
             </SwiperSlide>
           ))}
