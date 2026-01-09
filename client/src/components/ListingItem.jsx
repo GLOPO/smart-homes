@@ -34,7 +34,7 @@ export default function ListingItem({ listing }) {
             {listing.type === 'rent' && ' / month'}
           </p> */}
           <p className="text-slate-500 mt-2 font-semibold ">
-            $
+            N
             {listing.offer
               ? (listing.discountPrice || listing.price)?.toLocaleString(
                   "en-US"
