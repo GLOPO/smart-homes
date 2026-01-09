@@ -79,12 +79,10 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const token = localStorage.getItem('access_token');
       const res = await fetch(`${API_BASE_URL}/api/users/update/${currentUser._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : '',
         },
         credentials: 'include',
         body: JSON.stringify(formData),
@@ -105,21 +103,15 @@ export default function Profile() {
   const handleDeleteUser = async () => {
     try {
       dispatch(deleteUserStart());
-      const token = localStorage.getItem('access_token');
       const res = await fetch(`${API_BASE_URL}/api/users/delete/${currentUser._id}`, {
         method: 'DELETE',
         credentials: 'include',
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : '',
-        },
       });
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailed(data.message));
         return;
       }
-      // Clear token from localStorage
-      localStorage.removeItem('access_token');
       dispatch(deleteUserSuccess(data));
     } catch (error) {
       dispatch(deleteUserFailed(error.message));
@@ -129,20 +121,14 @@ export default function Profile() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const token = localStorage.getItem('access_token');
       const res = await fetch(`${API_BASE_URL}/api/auth/signout`, {
         credentials: 'include',
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : '',
-        },
       });
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailed(data.message));
         return;
       }
-      // Clear token from localStorage
-      localStorage.removeItem('access_token');
       dispatch(deleteUserSuccess(data));
     } catch (error) {
       dispatch(deleteUserFailed(data.message));
@@ -152,14 +138,8 @@ export default function Profile() {
   const handleShowListings = async () => {
     try {
       setShowListingsError(false);
-      // Get token from localStorage (set during signin)
-      const token = localStorage.getItem('access_token');
-      
       const res = await fetch(`${API_BASE_URL}/api/users/listings/${currentUser._id}`, {
         credentials: 'include',
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : '',
-        },
       });
       const data = await res.json();
       if (data.success === false) {
@@ -175,13 +155,9 @@ export default function Profile() {
 
   const handleListingDelete = async (listingId) => {
     try {
-      const token = localStorage.getItem('access_token');
       const res = await fetch(`${API_BASE_URL}/api/listing/delete/${listingId}`, {
         method: 'DELETE',
         credentials: 'include',
-        headers: {
-          'Authorization': token ? `Bearer ${token}` : '',
-        },
       });
       const data = await res.json();
       if (data.success === false) {

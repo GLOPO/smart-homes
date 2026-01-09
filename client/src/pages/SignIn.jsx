@@ -49,10 +49,6 @@ const SignIn = () => {
 
       return;
     }
-    // Store token in localStorage
-    if (data.token) {
-      localStorage.setItem('access_token', data.token);
-    }
     dispatch(signInSuccess(data));
     console.log("Dispatched: signInSuccess");
     navigate('/');
